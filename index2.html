@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<a href="#/home">home</a>
+	<a href="#/list">list</a>
+	<a href="#/detail">detail</a>
+
+	<hr>
+	<!-- div .container -->
+	<div ng-view=""></div>
+	<script src="./node_modules/angular/angular.min.js"></script>
+	<script src="./node_modules/angular-route/angular-route.min.js"></script>
+	<script>
+
+		angular.module("app",["ngRoute"])
+		.controller("asdfCtrl",function($scope){
+             $scope.name = "fy";
+		})
+		.config(function($routeProvider){
+			$routeProvider.
+			when("/home",{
+				templateUrl : "home.html",
+				controller : function($scope){
+					$scope.list = [1,3,5,7,9];
+				}
+			})
+			.when("/list",{
+				templateUrl : "list.html",
+				controller : function($scope,$http){
+					$http.get("http://datainfo.duapp.com/shopdata/getclass.php")
+					.success(function(res){
+						$scope.list = res;
+					})
+				}
+			})
+			.otherwise({
+				redirectTo : "/home"
+			});
+		});
+
+		angular.element(document).ready(function(){
+			angular.bootstrap(document,["app"]);
+		})
+	</script>
+</body>
+</html>

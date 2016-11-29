@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<a href="#home">home</a>
+	<a href="#list">list</a>
+	<a href="#detail">detail</a>
+
+	<hr>
+	<div class="container">
+		
+	</div>
+
+	<script src="jquery-1.11.3.js"></script>
+	<script src="spa.js"></script>
+	<script>
+		
+		//调用
+		Spa.
+		//配置路由
+		config(function(Router){
+			Router
+			.when("home",{
+				templateUrl : "home.html",
+				dataUrl : "http://datainfo.duapp.com/shopdata/getclass.php",
+				controller : function(res,data,vp){
+					vp.onclick = function(e){
+						var t = e.target;
+						if(t.tagName == "P"){
+							alert(t.innerHTML);
+						}
+					}
+				}
+			})
+			.when("list",{
+				templateUrl : "list.html",
+				dataUrl : "http://datainfo.duapp.com/shopdata/getGoods.php",
+				dataType : "jsonp"
+			})
+			.when("detail",{
+				templateUrl : "detail.html",
+				dataUrl : "deta.txt",
+				controller : function(res,data,viewport){
+					viewport.innerHTML = Math.random();
+				}
+			})
+
+			.otherwise();
+		}).
+		//启动应用
+		start();
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<a href="#home">home</a>
+	<a href="#list">list</a>
+	<a href="#detail">detail</a>
+	
+	<hr>
+	<div class="container">
+		
+	</div>
+	<script src="jquery-1.11.3.js"></script>
+	<script>
+
+		var Router = {
+			home : {
+				templateUrl : "home.html",
+				dataUrl : "http://datainfo.duapp.com/shopdata/getclass.php"
+			},
+			list : {
+				templateUrl : "list.html",
+				dataUrl : "http://datainfo.duapp.com/shopdata/getGoods.php",
+				dataType : "jsonp"
+			},
+			detail : {
+				templateUrl : "hhh",
+				dataUrl : ""
+			}
+		}
+
+
+		window.onhashchange = function(){
+			var hash = location.hash.substr(1);
+			var route = Router[hash];
+
+			$.ajax({
+				url :route.templateUrl,
+				success : function(res){
+					$.ajax({
+						url : route.dataUrl,
+						dataType : route.dataType||"json",
+						success:function(data){
+							// data = JSON.parse(data);
+							var html = [];
+							for(var i=0;i<data.length;i++){
+								var item = data[i];
+								html.push(res.replace(/{(\w+)}/g,function(a,b){
+									return item[b];
+								}));
+							}
+							document.querySelector(".container").innerHTML = html.join("");
+						}
+					});
+				}
+			})
+		}
+
+
+	</script>
+</body>
+</html>
